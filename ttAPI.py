@@ -3,8 +3,6 @@ from datetime import datetime as dt
 from getCases import getCases
 from getEpisodes import getEpisodes
 
-cases = getCases()
-episodes = getEpisodes()
 
 # Authenticate to Twitter
 auth = tweepy.OAuthHandler("RYOP7vU2iJX5BNonpaQkkolqq", "LiugL6Tx7X9dPcH2UK68Yl3Mz5R78vktb1ZDa2gMlPJwUsA9Js")
@@ -17,5 +15,22 @@ def post(cases):
     message = 'Dia %s:\n\nNúmero de Casos: %d\n\nEpisódio: %s'%(date,cases,title)
     image = 'imgs/%d.jpg'%cases
     api.update_with_media(image,message)
-post(cases)
 
+
+def main():
+    episodes = getEpisodes()
+    day = dt.now().day
+    ready = True
+    while True:
+        if dt.now().day != day:
+            ready = True
+            day = dt.now().day
+        if dt.now().hour == 19 and ready:
+            cases = getCases()
+            post(cases)
+            ready = False
+        else:
+            pass
+
+if __name__ == "__main__":
+    main()
