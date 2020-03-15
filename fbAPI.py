@@ -1,3 +1,4 @@
+import time
 from datetime import datetime as dt
 from getCases import getCases
 from getEpisodes import getEpisodes
@@ -15,18 +16,20 @@ def post(cases):
 
 def main():
     episodes = getEpisodes()
-    day = dt.now().day
-    ready = True
+    cases = getCases()
+    print('Casos =%d'%cases)
     while True:
-        if dt.now().day != day:
-            ready = True
-            day = dt.now().day
-        if dt.now().hour == 19 and ready:
-            cases = getCases()
+        new_cases = getCases()
+        if new_cases != cases:
+            print('mudou')
+            cases = new_cases
+            print('Casos =%d'%cases)
             post(cases)
-            ready = False
         else:
             pass
+        time.sleep(1)
+
+
     
 if __name__ == "__main__":
     main()

@@ -1,13 +1,5 @@
-import json
-from  urllib.request import Request, urlopen
-
+import pandas as pd 
 def getCases():
-
-    url = 'https://corona.lmao.ninja/countries'
-    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    webpage = urlopen(req).read()
-    data = json.loads(webpage)
-    for country in data:
-        if country['country'] == 'Brazil':
-            return country['cases']
-    
+    url = 'https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-total.csv'
+    df = pd.read_csv(url,index_col=0,error_bad_lines=False)
+    return(int(df.iloc[0,1]))
